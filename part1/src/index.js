@@ -4,7 +4,15 @@ import ReactDOM from "react-dom";
 const QuoteVotes = props => {
   return (
     <>
-      <p>Anecdote: {props.anecdote}</p>
+      <p>Has {props.voteCount} votes</p>
+    </>
+  );
+};
+
+const MostVotes = props => {
+  return (
+    <>
+      <p>{anecdotes[props.anecdote]}</p>
       <p>Has {props.voteCount} votes</p>
     </>
   );
@@ -14,8 +22,10 @@ const App = props => {
   const arr = new Array(anecdotes.length).fill(0);
   const [selected, setSelected] = useState(0);
   const [votes, setVotes] = useState(arr);
+  const [mostVoted, setMostVoted] = useState(0);
   const min = 0;
   const max = anecdotes.length;
+  let highestVote = 0;
 
   const changeSelection = () => {
     const randomNum = Math.floor(Math.random() * (+max - +min) + +min);
@@ -28,15 +38,22 @@ const App = props => {
   const castVote = () => {
     const copy = [...votes];
     copy[selected] += 1;
+    const largestVote = Math.max.apply(Math, copy);
+    if (largestVote > Math.max.apply(Math, votes)) {
+      setMostVoted(copy.indexOf(largestVote));
+    }
     setVotes(copy);
   };
 
   return (
     <div>
+      <h2>Anecdote of the day</h2>
       <p>{props.anecdotes[selected]}</p>
       <QuoteVotes anecdote={selected} voteCount={votes[selected]} />
       <button onClick={castVote}>Vote</button>
       <button onClick={changeSelection}>New anecdote</button>
+      <h2>Anecdote with the most votes</h2>
+      <MostVotes anecdote={mostVoted} voteCount={votes[mostVoted]} />
     </div>
   );
 };
