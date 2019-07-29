@@ -18,13 +18,24 @@ const Statistics = props => {
   }
   return (
     <div>
-      <p>Good:{statGood}</p>
-      <p>Neutral:{statNeutral}</p>
-      <p>Bad:{statBad}</p>
-      <p>All:{allStats}</p>
-      <p>Average:{averageStats.toFixed(2)}</p>
-      <p>Satisfied:{percentGood.toFixed(2)}%</p>
+      <Statistic text="Good:" value={statGood} />
+      <Statistic text="Neutral:" value={statNeutral} />
+      <Statistic text="Bad:" value={statBad} />
+      <Statistic text="All:" value={allStats} />
+      <Statistic text="Average:" value={averageStats.toFixed(2)} />
+      <Statistic text="Satisfied:" value={`${percentGood.toFixed(2)} %`} />
     </div>
+  );
+};
+
+const Statistic = props => {
+  return (
+    <>
+      <p>
+        {props.text}
+        {props.value}
+      </p>
+    </>
   );
 };
 
