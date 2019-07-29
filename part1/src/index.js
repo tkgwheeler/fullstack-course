@@ -17,25 +17,23 @@ const Statistics = props => {
     );
   }
   return (
-    <div>
+    <table>
       <Statistic text="Good:" value={statGood} />
       <Statistic text="Neutral:" value={statNeutral} />
       <Statistic text="Bad:" value={statBad} />
       <Statistic text="All:" value={allStats} />
       <Statistic text="Average:" value={averageStats.toFixed(2)} />
       <Statistic text="Satisfied:" value={`${percentGood.toFixed(2)} %`} />
-    </div>
+    </table>
   );
 };
 
 const Statistic = props => {
   return (
-    <>
-      <p>
-        {props.text}
-        {props.value}
-      </p>
-    </>
+    <tr>
+      <td>{props.text}</td>
+      <td>{props.value}</td>
+    </tr>
   );
 };
 
