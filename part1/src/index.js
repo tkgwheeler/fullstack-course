@@ -1,70 +1,88 @@
-import React, { useState } from "react";
+import React from "react";
 import ReactDOM from "react-dom";
 
-const QuoteVotes = props => {
+const Course = props => {
+  const title = props.course.name;
+  const parts = props.course.parts;
+
   return (
     <>
-      <p>Has {props.voteCount} votes</p>
+      <Header title={title} />
+      <Content parts={parts} />
     </>
   );
 };
 
-const MostVotes = props => {
+const Header = props => {
+  const title = props.title;
   return (
     <>
-      <p>{anecdotes[props.anecdote]}</p>
-      <p>Has {props.voteCount} votes</p>
+      <h1>{title}</h1>
     </>
   );
 };
 
-const App = props => {
-  const arr = new Array(anecdotes.length).fill(0);
-  const [selected, setSelected] = useState(0);
-  const [votes, setVotes] = useState(arr);
-  const [mostVoted, setMostVoted] = useState(0);
-  const min = 0;
-  const max = anecdotes.length;
-  let highestVote = 0;
+const Content = props => {
+  const parts = props.parts.map(part => (
+    <Part key={part.id} name={part.name} exercises={part.exercises} />
+  ));
+  return <div>{parts}</div>;
+};
 
-  const changeSelection = () => {
-    const randomNum = Math.floor(Math.random() * (+max - +min) + +min);
-    if (randomNum === selected) {
-      return;
-    }
-    setSelected(randomNum);
+const Total = props => {
+  return (
+    <>
+      <p>
+        Total ={" "}
+        {props.course.parts[0].exercises +
+          props.course.parts[1].exercises +
+          props.course.parts[2].exercises}{" "}
+        exercises
+      </p>
+    </>
+  );
+};
+
+const Part = props => (
+  <>
+    <p>
+      {props.name} : {props.exercises} exercises
+    </p>
+  </>
+);
+
+const App = () => {
+  const course = {
+    name: "Half Stack application development",
+    parts: [
+      {
+        name: "Fundamentals of React",
+        exercises: 10,
+        id: 1
+      },
+      {
+        name: "Using props to pass data",
+        exercises: 7,
+        id: 2
+      },
+      {
+        name: "State of a component",
+        exercises: 14,
+        id: 3
+      },
+      {
+        name: "boogie",
+        exercises: 5,
+        id: 4
+      }
+    ]
   };
-
-  const castVote = () => {
-    const copy = [...votes];
-    copy[selected] += 1;
-    const largestVote = Math.max.apply(Math, copy);
-    if (largestVote > Math.max.apply(Math, votes)) {
-      setMostVoted(copy.indexOf(largestVote));
-    }
-    setVotes(copy);
-  };
-
   return (
     <div>
-      <h2>Anecdote of the day</h2>
-      <p>{props.anecdotes[selected]}</p>
-      <QuoteVotes anecdote={selected} voteCount={votes[selected]} />
-      <button onClick={castVote}>Vote</button>
-      <button onClick={changeSelection}>New anecdote</button>
-      <h2>Anecdote with the most votes</h2>
-      <MostVotes anecdote={mostVoted} voteCount={votes[mostVoted]} />
+      <Course course={course} />
+      <Total course={course} />
     </div>
   );
 };
 
-const anecdotes = [
-  "If it hurts, do it more often",
-  "Adding manpower to a late software project makes it later!",
-  "The first 90 percent of the code accounts for the first 90 percent of the development time...The remaining 10 percent of the code accounts for the other 90 percent of the development time.",
-  "Any fool can write code that a computer can understand. Good programmers write code that humans can understand.",
-  "Premature optimization is the root of all evil.",
-  "Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it."
-];
-
-ReactDOM.render(<App anecdotes={anecdotes} />, document.getElementById("root"));
+ReactDOM.render(<App />, document.getElementById("root"));
