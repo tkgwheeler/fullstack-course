@@ -30,14 +30,16 @@ const Content = props => {
 };
 
 const Total = props => {
+  const parts = props.course.parts;
+  const exerciseArr = parts
+    .map(part => part.exercises)
+    .reduce((acc, val) => {
+      return acc + val;
+    });
   return (
     <>
       <p>
-        Total ={" "}
-        {props.course.parts[0].exercises +
-          props.course.parts[1].exercises +
-          props.course.parts[2].exercises}{" "}
-        exercises
+        <strong>Total = {exerciseArr} exercises</strong>
       </p>
     </>
   );
