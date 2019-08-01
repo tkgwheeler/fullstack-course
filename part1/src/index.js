@@ -1,68 +1,51 @@
-import React from "react";
+import React, { useState } from "react";
 import ReactDOM from "react-dom";
-import Courses from "./components/courses";
 
-const App = () => {
+const Contacts = ({ persons }) =>
+  persons.map(person => <Contact key={person.id} name={person.name} />);
+
+const Contact = ({ name }) => {
   return (
-    <div>
-      <Courses courses={courses} />
-    </div>
+    <>
+      <p>{name}</p>
+    </>
   );
 };
 
-const courses = [
-  {
-    name: "Half Stack application development",
-    id: 1,
-    parts: [
-      {
-        name: "Fundamentals of React",
-        exercises: 10,
-        id: 1
-      },
-      {
-        name: "Using props to pass data",
-        exercises: 7,
-        id: 2
-      },
-      {
-        name: "State of a component",
-        exercises: 14,
-        id: 3
-      },
-      {
-        name: "boogie",
-        exercises: 5,
-        id: 4
-      }
-    ]
-  },
-  {
-    name: "Other Stack",
-    id: 2,
-    parts: [
-      {
-        name: "Blip",
-        exercises: 10,
-        id: 1
-      },
-      {
-        name: "Blash",
-        exercises: 7,
-        id: 2
-      },
-      {
-        name: "Blop",
-        exercises: 14,
-        id: 3
-      },
-      {
-        name: "Bloop",
-        exercises: 15,
-        id: 4
-      }
-    ]
-  }
-];
+const App = () => {
+  const [persons, setPersons] = useState([{ name: "Arto Hellas", id: "1" }]);
+  const [newName, setNewName] = useState("Add a Person");
+
+  const addPerson = event => {
+    event.preventDefault();
+    const personObject = {
+      name: newName,
+      id: persons.length + 1
+    };
+    setPersons(persons.concat(personObject));
+    setNewName("");
+  };
+
+  const handleNameChange = event => {
+    setNewName(event.target.value);
+  };
+
+  return (
+    <div>
+      <h2>Phonebook</h2>
+      <form onSubmit={addPerson}>
+        <div>
+          name: <input value={newName} onChange={handleNameChange} />
+        </div>
+        <div>
+          <button type="submit">add</button>
+        </div>
+      </form>
+      <h2>Numbers</h2>
+      ...
+      <Contacts persons={persons} />
+    </div>
+  );
+};
 
 ReactDOM.render(<App />, document.getElementById("root"));
