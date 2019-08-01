@@ -1,11 +1,15 @@
 import React, { useState } from "react";
 import ReactDOM from "react-dom";
 
-const Contacts = ({ persons }) =>
-  persons.map(person => (
+const Contacts = ({ persons, filter }) => {
+  const rowsToShow = persons.filter(person =>
+    person.name.toLowerCase().includes(filter.toLowerCase())
+  );
+  const rows = rowsToShow.map(person => (
     <Contact key={person.id} name={person.name} number={person.number} />
   ));
-
+  return <div>{rows}</div>;
+};
 const Contact = ({ name, number }) => {
   return (
     <>
@@ -16,12 +20,23 @@ const Contact = ({ name, number }) => {
   );
 };
 
+const Filter = ({ term, change }) => {
+  const handleFilterChange = event => {
+    change(event.target.value);
+  };
+  return (
+    <div>
+      Filter contact: <input value={term} onChange={handleFilterChange} />
+    </div>
+  );
+};
+
 const App = () => {
-  const [persons, setPersons] = useState([
-    { name: "Arto Hellas", id: "1", number: "555-555-123" }
-  ]);
+  const [persons, setPersons] = useState(dummyList);
   const [newName, setNewName] = useState("Andy");
   const [newNumber, setNewNumber] = useState("555-555-555");
+  const [filter, setFilter] = useState("");
+  console.log("filter:", filter);
 
   const addPerson = event => {
     event.preventDefault();
@@ -48,7 +63,9 @@ const App = () => {
 
   return (
     <div>
-      <h2>Phonebook</h2>
+      <h1>Phonebook</h1>
+      <Filter term={filter} change={setFilter} />
+      <h2>Add a new contact</h2>
       <form onSubmit={addPerson}>
         <div>
           name: <input value={newName} onChange={handleNameChange} />
@@ -60,9 +77,32 @@ const App = () => {
       </form>
       <h2>Numbers</h2>
       ...
-      <Contacts persons={persons} />
+      <Contacts persons={persons} filter={filter} />
     </div>
   );
 };
+
+const dummyList = [
+  {
+    name: "Ally",
+    id: 1,
+    number: "555-555-123"
+  },
+  {
+    name: "Barry",
+    id: 2,
+    number: "535-525-123"
+  },
+  {
+    name: "Sally",
+    id: 3,
+    number: "555-555-191"
+  },
+  {
+    name: "Garry",
+    id: 4,
+    number: "555-222-123"
+  }
+];
 
 ReactDOM.render(<App />, document.getElementById("root"));
