@@ -14,7 +14,7 @@ const Contact = ({ name }) => {
 
 const App = () => {
   const [persons, setPersons] = useState([{ name: "Arto Hellas", id: "1" }]);
-  const [newName, setNewName] = useState("Add a Person");
+  const [newName, setNewName] = useState("Andy");
 
   const addPerson = event => {
     event.preventDefault();
@@ -22,8 +22,12 @@ const App = () => {
       name: newName,
       id: persons.length + 1
     };
-    setPersons(persons.concat(personObject));
-    setNewName("");
+    if (persons.findIndex(item => item.name === personObject.name) === -1) {
+      setPersons(persons.concat(personObject));
+      setNewName("");
+    } else {
+      alert(`${personObject.name} already exists in the phonebook.`);
+    }
   };
 
   const handleNameChange = event => {
