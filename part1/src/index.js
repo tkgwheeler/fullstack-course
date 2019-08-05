@@ -2,20 +2,24 @@ import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 import axios from "axios";
 
-const Filter = ({ list, search }) => {
-  const listFilter = list.filter(country =>
-    country.name.toLowerCase().includes(search.toLowerCase())
-  );
-
-  if (listFilter.length > 10)
-    return <p>Too many matches, please refine your search</p>;
-  else if (listFilter.length > 1 && listFilter.length < 10) {
-    let results = listFilter.map(country => (
-      <p key={country.name}>{country.name}</p>
+const Countries = ({ list }) => {
+  if (list.length > 1) {
+    let result = list.map(country => (
+      <CountryStats key={country.name} country={country} />
     ));
-    return <p>{results}</p>;
+    return <>{result}</>;
   } else {
-    let results = listFilter.map(country => (
+    let result = list.map(country => (
+      <CountryStats key={country.name} country={country} singleResult={true} />
+    ));
+    return <>{result}</>;
+  }
+};
+
+const CountryStats = ({ country, singleResult }) => {
+  const [showStats, setShowStats] = useState("");
+  const handleClick = event => {
+    setShowStats(
       <div>
         <h1>{country.name}</h1>
         <p>Capital: {country.capital}</p>
@@ -23,14 +27,46 @@ const Filter = ({ list, search }) => {
         <h2>Languages</h2>
         <ul>
           {country.languages.map(language => (
-            <li>{language.name}</li>
+            <li key={language.name}>{language.name}</li>
           ))}
         </ul>
         <img src={country.flag} style={{ height: "75px" }} />
       </div>
-    ));
-    return <p>{results}</p>;
-  }
+    );
+  };
+  if (singleResult)
+    return (
+      <div>
+        <h1>{country.name}</h1>
+        <p>Capital: {country.capital}</p>
+        <p>Population: {country.population}</p>
+        <h2>Languages</h2>
+        <ul>
+          {country.languages.map(language => (
+            <li key={language.name}>{language.name}</li>
+          ))}
+        </ul>
+        <img src={country.flag} style={{ height: "75px" }} />
+      </div>
+    );
+  else
+    return (
+      <div>
+        <p>{country.name}</p>
+        <button onClick={handleClick}>Show</button>
+        {showStats}
+      </div>
+    );
+};
+
+const Filter = ({ list, search }) => {
+  const listFilter = list.filter(country =>
+    country.name.toLowerCase().includes(search.toLowerCase())
+  );
+
+  if (listFilter.length > 10)
+    return <p>Too many matches, please refine your search</p>;
+  else return <Countries list={listFilter} />;
 };
 
 const Search = ({ term, set }) => {
