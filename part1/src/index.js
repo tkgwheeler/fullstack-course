@@ -1,47 +1,61 @@
 import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
-import Contacts from "./components/phonebook/contacts";
-import Filter from "./components/phonebook/filter";
-import Form from "./components/phonebook/form";
 import axios from "axios";
 
-const App = () => {
-  const [persons, setPersons] = useState([]);
-  const [newName, setNewName] = useState("Andy");
-  const [newNumber, setNewNumber] = useState("555-555-555");
-  const [filter, setFilter] = useState("");
+const Filter = ({ list, search }) => {
+  const listFilter = list.filter(country =>
+    country.name.toLowerCase().includes(search.toLowerCase())
+  );
 
-  const handleNameChange = event => {
-    setNewName(event.target.value);
+  if (listFilter.length > 10)
+    return <p>Too many matches, please refine your search</p>;
+  else if (listFilter.length > 1 && listFilter.length < 10) {
+    let results = listFilter.map(country => (
+      <p key={country.name}>{country.name}</p>
+    ));
+    return <p>{results}</p>;
+  } else {
+    let results = listFilter.map(country => (
+      <div>
+        <h1>{country.name}</h1>
+        <p>Capital: {country.capital}</p>
+        <p>Population: {country.population}</p>
+        <h2>Languages</h2>
+        <ul>
+          {country.languages.map(language => (
+            <li>{language.name}</li>
+          ))}
+        </ul>
+        <img src={country.flag} style={{ height: "75px" }} />
+      </div>
+    ));
+    return <p>{results}</p>;
+  }
+};
+
+const Search = ({ term, set }) => {
+  const handleChange = event => {
+    set(event.target.value);
   };
-
-  const handleNumberChange = event => {
-    setNewNumber(event.target.value);
-  };
-
-  useEffect(() => {
-    axios.get("http://localhost:3001/persons").then(response => {
-      setPersons(response.data);
-    });
-  }, []);
-
   return (
     <div>
-      <h1>Phonebook</h1>
-      <Filter term={filter} change={setFilter} />
-      <h2>Add a new contact</h2>
-      <Form
-        newName={newName}
-        persons={persons}
-        setPersons={setPersons}
-        setNewName={setNewName}
-        newNumber={newNumber}
-        handleNameChange={handleNameChange}
-        handleNumberChange={handleNumberChange}
-      />
-      <h2>Numbers</h2>
-      ...
-      <Contacts persons={persons} filter={filter} />
+      <input value={term} onChange={handleChange} />
+    </div>
+  );
+};
+
+const App = () => {
+  const [countries, setCountries] = useState([]);
+  const [search, setSearch] = useState("");
+  useEffect(() => {
+    axios.get("https://restcountries.eu/rest/v2/all").then(response => {
+      setCountries(response.data);
+    });
+  }, []);
+  return (
+    <div>
+      <Search term={search} set={setSearch} />
+      <Filter list={countries} search={search} />
     </div>
   );
 };
