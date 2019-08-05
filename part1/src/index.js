@@ -1,11 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 import Contacts from "./components/phonebook/contacts";
 import Filter from "./components/phonebook/filter";
 import Form from "./components/phonebook/form";
+import axios from "axios";
 
 const App = () => {
-  const [persons, setPersons] = useState(dummyList);
+  const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState("Andy");
   const [newNumber, setNewNumber] = useState("555-555-555");
   const [filter, setFilter] = useState("");
@@ -17,6 +18,12 @@ const App = () => {
   const handleNumberChange = event => {
     setNewNumber(event.target.value);
   };
+
+  useEffect(() => {
+    axios.get("http://localhost:3001/persons").then(response => {
+      setPersons(response.data);
+    });
+  }, []);
 
   return (
     <div>
@@ -38,28 +45,5 @@ const App = () => {
     </div>
   );
 };
-
-const dummyList = [
-  {
-    name: "Ally",
-    id: 1,
-    number: "555-555-123"
-  },
-  {
-    name: "Barry",
-    id: 2,
-    number: "535-525-123"
-  },
-  {
-    name: "Sally",
-    id: 3,
-    number: "555-555-191"
-  },
-  {
-    name: "Garry",
-    id: 4,
-    number: "555-222-123"
-  }
-];
 
 ReactDOM.render(<App />, document.getElementById("root"));
