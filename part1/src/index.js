@@ -2,6 +2,34 @@ import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 import axios from "axios";
 
+const Weather = props => {
+  const [localWeather, setLocalWeather] = useState();
+  const key = "82005d27a116c2880c8f0fcb866998a0";
+  const city = props.city;
+
+  useEffect(() => {
+    axios
+      .get(
+        `http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${key}`
+      )
+      .then(response => {
+        setLocalWeather(response.data);
+      });
+  }, []);
+  console.log(localWeather);
+  return (
+    <div>
+      <h2>Weather in {props.city}</h2>
+      <p>
+        <strong>Temperature is:</strong>
+        {localWeather
+          ? ` ${Math.floor(localWeather.main.temp - 273)} degrees`
+          : "No temperature data found"}
+      </p>
+    </div>
+  );
+};
+
 const Countries = ({ list }) => {
   if (list.length > 1) {
     let result = list.map(country => (
@@ -31,6 +59,7 @@ const CountryStats = ({ country, singleResult }) => {
           ))}
         </ul>
         <img src={country.flag} style={{ height: "75px" }} />
+        <Weather city={country.capital} />
       </div>
     );
   };
@@ -47,6 +76,7 @@ const CountryStats = ({ country, singleResult }) => {
           ))}
         </ul>
         <img src={country.flag} style={{ height: "75px" }} />
+        <Weather city={country.capital} />
       </div>
     );
   else
