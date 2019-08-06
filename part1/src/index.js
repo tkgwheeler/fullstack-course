@@ -17,9 +17,9 @@ const Countries = ({ list }) => {
 };
 
 const CountryStats = ({ country, singleResult }) => {
-  const [showStats, setShowStats] = useState("");
+  const [stats, setStats] = useState("");
   const handleClick = event => {
-    setShowStats(
+    setStats(
       <div>
         <h1>{country.name}</h1>
         <p>Capital: {country.capital}</p>
@@ -54,7 +54,7 @@ const CountryStats = ({ country, singleResult }) => {
       <div>
         <p>{country.name}</p>
         <button onClick={handleClick}>Show</button>
-        {showStats}
+        {stats}
       </div>
     );
 };
