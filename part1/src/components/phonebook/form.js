@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Axios from "axios";
 
 const Form = props => {
   const {
@@ -14,12 +15,15 @@ const Form = props => {
     event.preventDefault();
     const personObject = {
       name: newName,
-      id: persons.length + 1,
       number: newNumber
     };
     if (persons.findIndex(item => item.name === personObject.name) === -1) {
-      setPersons(persons.concat(personObject));
-      setNewName("");
+      Axios.post("http://localhost:3001/persons", personObject).then(
+        response => {
+          setPersons(persons.concat(response.data));
+          setNewName("");
+        }
+      );
     } else {
       alert(`${personObject.name} already exists in the phonebook.`);
     }
