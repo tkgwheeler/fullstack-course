@@ -4,6 +4,7 @@ import Contacts from "./components/phonebook/contacts";
 import Filter from "./components/phonebook/filter";
 import Form from "./components/phonebook/form";
 import axios from "axios";
+import contactService from "../src/services/phonenumbers";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -20,8 +21,8 @@ const App = () => {
   };
 
   useEffect(() => {
-    axios.get("http://localhost:3001/persons").then(response => {
-      setPersons(response.data);
+    contactService.getAll().then(initialContacts => {
+      setPersons(initialContacts);
     });
   }, []);
 

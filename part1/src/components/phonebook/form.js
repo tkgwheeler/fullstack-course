@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Axios from "axios";
+import contactService from "../../services/phonenumbers";
 
 const Form = props => {
   const {
@@ -18,12 +19,10 @@ const Form = props => {
       number: newNumber
     };
     if (persons.findIndex(item => item.name === personObject.name) === -1) {
-      Axios.post("http://localhost:3001/persons", personObject).then(
-        response => {
-          setPersons(persons.concat(response.data));
-          setNewName("");
-        }
-      );
+      contactService.create(personObject).then(returnedContact => {
+        setPersons(persons.concat(returnedContact));
+        setNewName("");
+      });
     } else {
       alert(`${personObject.name} already exists in the phonebook.`);
     }
