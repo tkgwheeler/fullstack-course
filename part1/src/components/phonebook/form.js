@@ -18,6 +18,7 @@ const Form = props => {
       name: newName,
       number: newNumber
     };
+    // Check for the name in the server. If it exists update it, otherwise add new entry
     if (persons.findIndex(item => item.name === personObject.name) === -1) {
       contactService.create(personObject).then(returnedContact => {
         setPersons(persons.concat(returnedContact));
@@ -36,11 +37,6 @@ const Form = props => {
             )
           );
         });
-      // alert(
-      //   `${
-      //     personObject.name
-      //   } already exists in the phonebook. with an index of ${personId}`
-      // );
     }
   };
 
