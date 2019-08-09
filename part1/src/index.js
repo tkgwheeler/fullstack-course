@@ -20,6 +20,10 @@ const App = () => {
     setNewNumber(event.target.value);
   };
 
+  const handleRemovePerson = id => {
+    setPersons(persons.filter(person => person.id !== id));
+  };
+
   useEffect(() => {
     contactService.getAll().then(initialContacts => {
       setPersons(initialContacts);
@@ -41,7 +45,11 @@ const App = () => {
         handleNumberChange={handleNumberChange}
       />
       <h2>Numbers</h2>
-      <Contacts persons={persons} filter={filter} />
+      <Contacts
+        persons={persons}
+        filter={filter}
+        removePerson={handleRemovePerson}
+      />
     </div>
   );
 };
