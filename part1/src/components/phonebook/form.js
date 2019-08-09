@@ -24,7 +24,23 @@ const Form = props => {
         setNewName("");
       });
     } else {
-      alert(`${personObject.name} already exists in the phonebook.`);
+      const personToUpdateId =
+        persons[persons.findIndex(item => item.name === personObject.name)].id;
+
+      contactService
+        .update(personToUpdateId, personObject)
+        .then(updatedPerson => {
+          setPersons(
+            persons.map(person =>
+              person.id !== updatedPerson.id ? person : updatedPerson
+            )
+          );
+        });
+      // alert(
+      //   `${
+      //     personObject.name
+      //   } already exists in the phonebook. with an index of ${personId}`
+      // );
     }
   };
 

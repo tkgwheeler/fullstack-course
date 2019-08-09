@@ -1,24 +1,9 @@
 {
   "persons": [
     {
-      "name": "Arto Hellas",
-      "number": "040-123456",
-      "id": 1
-    },
-    {
-      "name": "Phillip",
-      "number": "555-555-555",
-      "id": 6
-    },
-    {
       "name": "Serkis",
       "number": "666-666",
       "id": 8
-    },
-    {
-      "name": "Boo",
-      "number": "111-222-333-444",
-      "id": 9
     },
     {
       "name": "Boohoo",
@@ -26,14 +11,24 @@
       "id": 10
     },
     {
-      "name": "Boogie",
-      "number": "555-555-555",
+      "name": "Andy",
+      "number": "666",
       "id": 12
     },
     {
-      "name": "Frankie",
-      "number": "555-555-555",
+      "name": "Boogalloo",
+      "number": "43434",
       "id": 13
+    },
+    {
+      "name": "Powwow",
+      "number": "111-333-4--",
+      "id": 14
+    },
+    {
+      "name": "Buttkiss",
+      "number": "666-666",
+      "id": 15
     }
   ]
 }

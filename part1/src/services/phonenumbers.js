@@ -14,12 +14,21 @@ const create = newObject => {
 
 const remove = id => {
   const url = `${baseUrl}/${id}`;
+  console.log(url);
   const request = axios.delete(url);
   return request;
+};
+
+const update = (id, newObject) => {
+  const url = `${baseUrl}/${id}`;
+  console.log("Details are:", url, id, newObject);
+  const request = axios.put(url, newObject);
+  return request.then(response => response.data);
 };
 
 export default {
   getAll,
   create,
-  remove
+  remove,
+  update
 };
