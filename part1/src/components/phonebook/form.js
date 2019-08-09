@@ -24,7 +24,13 @@ const Form = props => {
         setPersons(persons.concat(returnedContact));
         setNewName("");
       });
-    } else {
+    } else if (
+      window.confirm(
+        `${
+          personObject.name
+        } already exists. Would you like to update his number?`
+      )
+    ) {
       const personToUpdateId =
         persons[persons.findIndex(item => item.name === personObject.name)].id;
 

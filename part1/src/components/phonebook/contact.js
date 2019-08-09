@@ -10,7 +10,7 @@ const Contact = ({ name, number, id, removePerson }) => {
   return (
     <div>
       <p>
-        {name} : {number} : {id}
+        {name} : {number}
       </p>
       <button onClick={() => handleDelete(id)}>Delete</button>
     </div>

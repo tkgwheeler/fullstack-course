@@ -1,29 +1,19 @@
 {
   "persons": [
     {
-      "name": "Serkis",
-      "number": "666-666",
-      "id": 8
-    },
-    {
       "name": "Boohoo",
       "number": "555-555-555",
       "id": 10
     },
     {
       "name": "Andy",
-      "number": "666",
+      "number": "434",
       "id": 12
     },
     {
       "name": "Boogalloo",
       "number": "43434",
       "id": 13
-    },
-    {
-      "name": "Powwow",
-      "number": "111-333-4--",
-      "id": 14
     },
     {
       "name": "Buttkiss",
