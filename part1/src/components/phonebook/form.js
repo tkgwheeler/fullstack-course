@@ -10,7 +10,8 @@ const Form = props => {
     setNewName,
     newNumber,
     handleNameChange,
-    handleNumberChange
+    handleNumberChange,
+    setMessage
   } = props;
   const addPerson = event => {
     event.preventDefault();
@@ -23,12 +24,16 @@ const Form = props => {
       contactService.create(personObject).then(returnedContact => {
         setPersons(persons.concat(returnedContact));
         setNewName("");
+        setMessage(`${personObject.name} was added`);
+        setTimeout(() => {
+          setMessage(null);
+        }, 5000);
       });
     } else if (
       window.confirm(
         `${
           personObject.name
-        } already exists. Would you like to update his number?`
+        } already exists. Would you like to update their number?`
       )
     ) {
       const personToUpdateId =
@@ -42,7 +47,16 @@ const Form = props => {
               person.id !== updatedPerson.id ? person : updatedPerson
             )
           );
+        })
+        .catch(error => {
+          setMessage(`Error when updating ${personObject.name} entry`);
         });
+      setMessage(
+        `${personObject.name}'s number was updated to ${personObject.number}`
+      );
+      setTimeout(() => {
+        setMessage(null);
+      }, 5000);
     }
   };
 
