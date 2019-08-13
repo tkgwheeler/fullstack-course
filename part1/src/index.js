@@ -5,7 +5,6 @@ import Contacts from "./components/phonebook/contacts";
 import Filter from "./components/phonebook/filter";
 import Form from "./components/phonebook/form";
 import Notification from "./components/phonebook/notification";
-import axios from "axios";
 import contactService from "../src/services/phonenumbers";
 
 const App = () => {

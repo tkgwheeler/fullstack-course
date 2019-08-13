@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import contactService from "../../services/phonenumbers";
 
 const Contact = ({ name, number, id, removePerson }) => {
