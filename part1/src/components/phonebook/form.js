@@ -20,19 +20,25 @@ const Form = props => {
     };
     // Check for the name in the server. If it exists update it, otherwise add new entry
     if (persons.findIndex(item => item.name === personObject.name) === -1) {
-      contactService.create(personObject).then(returnedContact => {
-        setPersons(persons.concat(returnedContact));
-        setNewName("");
-        setMessage(`${personObject.name} was added`);
-        setTimeout(() => {
-          setMessage(null);
-        }, 5000);
-      });
+      contactService
+        .create(personObject)
+        .then(returnedContact => {
+          setPersons(persons.concat(returnedContact));
+          setNewName("");
+          setMessage(`${personObject.name} was added`);
+          setTimeout(() => {
+            setMessage(null);
+          }, 5000);
+        })
+        .catch(error => {
+          setMessage(error.response.data.error);
+          setTimeout(() => {
+            setMessage(null);
+          }, 5000);
+        });
     } else if (
       window.confirm(
-        `${
-          personObject.name
-        } already exists. Would you like to update their number?`
+        `${personObject.name} already exists. Would you like to update their number?`
       )
     ) {
       const personToUpdateId =
